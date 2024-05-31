@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Currency Converter</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">
+        <img src="https://picsum.photos/200/300" class="logo" />
+      </div>
+      <h1>Currency Converter</h1>
+      <input type="number" id="amount" placeholder="100" />
+      <div class="dropdown">
+        <div id="selected-currency" class="dropdown-selected">
+          Select currency
+        </div>
+        <div id="dropdown-options" class="dropdown-options">
+          <div class="dropdown-option" data-value="eur">EUR</div>
+          <div class="dropdown-option" data-value="usd">USD</div>
+          <div class="dropdown-option" data-value="chf">CHF</div>
+        </div>
+      </div>
+      <button onclick="convert()">Convert</button>
+      <h2>TO <span id="result">0 PLN</span></h2>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
