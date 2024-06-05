@@ -1,36 +1,39 @@
 document
-  .getElementById("selected-currency")
-  .addEventListener("click", function () {
-    document.getElementById("dropdown-options").style.display = "block";
+  .getElementById("converter-form")
+  .addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const amountElement = document.getElementById("amount");
+    const amount = amountElement.value;
+    const currency = document.getElementById("selected-currency").value;
+    const messageElement = document.getElementById("message");
+
+    messageElement.innerText = "";
+
+    if (amount === "" || amount <= 0) {
+      messageElement.innerText = "Please enter an amount greater than zero.";
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.nbp.pl/api/exchangerates/rates/a/${currency}/?format=json`
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+
+      if (!data || !data.rates || !data.rates[0] || !data.rates[0].mid) {
+        throw new Error("Invalid data received from API");
+      }
+
+      const rate = data.rates[0].mid;
+      const result = amount * rate;
+      document.getElementById("result").innerText = `${result.toFixed(2)} PLN`;
+    } catch (error) {
+      messageElement.innerText =
+        "There was a problem with the conversion: " + error.message;
+    }
   });
-
-document.querySelectorAll(".dropdown-option").forEach(function (option) {
-  option.addEventListener("click", function () {
-    document.getElementById("selected-currency").innerText = this.innerText;
-    document.getElementById("dropdown-options").style.display = "none";
-    document.getElementById("selected-currency").dataset.value =
-      this.dataset.value;
-  });
-});
-
-async function convert() {
-  const amount = document.getElementById("amount").value;
-  const currency = document.getElementById("selected-currency").dataset.value;
-  if (!currency) {
-    alert("Please select a currency");
-    return;
-  }
-  const response = await fetch(
-    `https://api.nbp.pl/api/exchangerates/rates/a/${currency}/?format=json`
-  );
-  const data = await response.json();
-  const rate = data.rates[0].mid;
-  const result = amount * rate;
-  document.getElementById("result").innerText = `${result.toFixed(2)} PLN`;
-}
-
-document.addEventListener("click", function (e) {
-  if (!document.querySelector(".dropdown").contains(e.target)) {
-    document.getElementById("dropdown-options").style.display = "none";
-  }
-});

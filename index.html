@@ -9,22 +9,20 @@
   <body>
     <div class="container">
       <div class="logo">
-        <img src="https://picsum.photos/200/300" class="logo" />
+        <img src="https://picsum.photos/200/300" alt="Logo" class="logo" />
       </div>
       <h1>Currency Converter</h1>
-      <input type="number" id="amount" placeholder="100" />
-      <div class="dropdown">
-        <div id="selected-currency" class="dropdown-selected">
-          Select currency
-        </div>
-        <div id="dropdown-options" class="dropdown-options">
-          <div class="dropdown-option" data-value="eur">EUR</div>
-          <div class="dropdown-option" data-value="usd">USD</div>
-          <div class="dropdown-option" data-value="chf">CHF</div>
-        </div>
-      </div>
-      <button onclick="convert()">Convert</button>
+      <form id="converter-form">
+        <input type="number" id="amount" placeholder="100" min="0" />
+        <select id="selected-currency">
+          <option value="eur">EUR</option>
+          <option value="usd">USD</option>
+          <option value="chf">CHF</option>
+        </select>
+        <button type="submit">Convert</button>
+      </form>
       <h2>TO <span id="result">0 PLN</span></h2>
+      <p id="message" class="message"></p>
     </div>
     <script src="main.js"></script>
   </body>
